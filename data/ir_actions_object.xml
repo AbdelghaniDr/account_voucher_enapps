@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record model="ir.actions.object" id="mass_pick_use">
+            <field name="model_name">account.voucher.line</field>
+            <field name="model_method">mass_pick_use</field>
+            <field name="description">Pick/unpick to use</field>
+        </record>
+
+    </data>
+</openerp>

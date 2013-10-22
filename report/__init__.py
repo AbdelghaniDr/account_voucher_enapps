@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
+#    Copyright (C) 2011 Enapps LTD (<http://www.enapps.co.uk>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,8 +18,5 @@
 #
 ##############################################################################
 
-import account_voucher
-import account_voucher_print
-import account_voucher_sales_receipt
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

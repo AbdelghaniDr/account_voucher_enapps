@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
+#    Copyright (C) 2011 Enapps LTD (<http://www.enapps.co.uk>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,18 +19,50 @@
 ##############################################################################
 
 {
-    "name" : "Accounting Voucher Entries",
+    "name" : "Enapps Accounting Voucher",
     "version" : "1.0",
-    "author" : 'OpenERP SA',
-    "description": """Account Voucher module includes all the basic requirements of
-    Voucher Entries for Bank, Cash, Sales, Purchase, Expanse, Contra, etc...
-    * Voucher Entry
-    * Voucher Receipt
-    * Cheque Register
+    "author" : 'Enapps LTD',
+    "description": """account_voucher module by Enapps is a full rewrite of the original account_voucher with clean code and improved functionality. This module is to be used to record single payment transactions to suppliers or from customers. This functionality will be very familiar to Quickbooks and Oracle users. The module fully supports multicurrency. For enhancements and further customisations please contact Enapps: openerp@enapps.co.uk
+
+This module is compatible with OpenERP v6.0 and v6.1
+    
+This module can be installed on top of the OpenERP standard account_voucher and will replace all standard functionality.
+        
+Note: Uninstall of this module is not supported - test first in your development system.
+        
+Configuration:
+1) Installing this module will add 4 configurable write-off accounts against your company record.  Assign your default accounts for Exchange rate gains and losses, and write-off gains and losses under Menu --> Administration --> Companies --> Companies
+
+Usage:
+1) Open either Customer or Supplier Payment
+2) Select the account you would like to use to pay from/into
+3) Enter the payment date
+4) Select the Customer/Supplier record
+5) Click on 'Get Open Entries' - all open invoices and credits will load in the Outstanding Transactions list.
+6) Tick the 'Use' check-box to allocate payment to a line.  Alternatively you can enter in an amount manually.
+7) Click on the 'Compute' button.
+8) Enter your payment reference
+9) If necessary you can choose to 'Keep Open' or 'Reconcile with Write-Off' for your payment.
+* If you have chosen 'Reconcile with Write-Off' and modify the 'Amount to pay' so the total is either higher or lower than the amount allocated in 'Outstanding Transactions', the difference will be automatically written off to your configured write-off gains or losses account.
+* When modifying the 'Amount to pay' click on 'Re-compute' to show the 'Payment diff' calculation under 'Payment Options'.
+* If you are processing a payment in a currency other than your base currency, the exchange rate difference will be automatically written off to your configured exchange rate gain/loss accounts using the exchange rate at or closest to the payment date.
+10) If you would like to modify your payment selection, click 'Reselect lines to pay' to re-open the 'Outstanding Transactions' list.
+11) Lastly, click 'Confirm Payment'.
+12) Review your Journal Entries under the Journal Items tab.
+
+Usage from 'Pay Invoice' within account.invoice:
+1) Click 'Pay Invoice' from the Invoice screen
+2) Select the account you would like to use to pay from/into
+3) Click on 'Get Open Entries'
+* the invoice you were previously viewing will be automatically selected
+
+Other information:
+* When you select 'Get Open Entries' you will be retrieving all uncleared Invoices and Credits.  If you would like to reconcile an Invoice against a Credit, simply tick the 'Use' box for each line and then click 'Compute'.
+
     """,
-    "category" : "Generic Modules/Accounting",
-    "website" : "http://tinyerp.com",
-    "depends" : ["account"],
+    "category": 'Accounting & Finance',
+    "website" : "http://www.enapps.co.uk",
+    "depends" : ["account","account_voucher"],
     "init_xml" : [],
 
     "demo_xml" : [],
@@ -39,27 +70,19 @@
     "update_xml" : [
         "security/ir.model.access.csv",
         "account_voucher_sequence.xml",
-        "account_voucher_workflow.xml",
-        "account_voucher_report.xml",
         "wizard/account_voucher_unreconcile_view.xml",
-        "wizard/account_statement_from_invoice_view.xml",
-        "account_voucher_view.xml",
         "voucher_payment_receipt_view.xml",
-        "voucher_sales_purchase_view.xml",
-        "account_voucher_wizard.xml",
+        "account_voucher_view.xml",
         "account_voucher_pay_invoice.xml",
-        "report/account_voucher_sales_receipt_view.xml",
-        "security/account_voucher_security.xml"
+        "account_move_line_view.xml",
+        "company_view.xml",
+        "security/account_voucher_security.xml",
+        "account_voucher_installer.xml",
+        'data/ir_actions_object.xml',
     ],
-    "test" : [
-        "test/account_voucher.yml",
-        "test/sales_receipt.yml",
-        "test/sales_payment.yml",
-        "test/account_voucher_report.yml"
-    ],
-    'certificate': '0037580727101',
     "active": False,
     "installable": True,
+    'images': ['images/supplier_payment.png','images/supplier_payment_web.png'],
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

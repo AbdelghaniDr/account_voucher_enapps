@@ -1,0 +1,63 @@
+<openerp>
+    <data>
+        <record id="view_account_voucher_configuration_installer" model="ir.ui.view">
+            <field name="name">account.voucher.installer.form</field>
+            <field name="model">account.voucher.installer</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.res_config_installer"/>
+            <field name="arch" type="xml">
+            <data>
+                <form position="attributes">
+                    <attribute name="string">Default writeoff and exchange diff accounts configuration</attribute>
+                </form>
+                <separator string="title" position="attributes">
+                    <attribute name="string">Default writeoff and exchange diff accounts configuration</attribute>
+                </separator>
+                <xpath expr="//label[@string='description']" position="attributes">
+                    <attribute name="string">Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall.  All the king's horses and all the king's men Couldn't put Humpty together again</attribute>
+                </xpath>
+                <xpath expr="//button[@string='Install Modules']" position="attributes">
+                    <attribute name="string">Configure</attribute>
+                </xpath>
+                <xpath expr='//separator[@string="vsep"]' position='attributes'>
+                    <attribute name='rowspan'>23</attribute>
+                    <attribute name='string'></attribute>
+                </xpath>
+                <group colspan="8">
+                    <group colspan="4" width="600">
+                            <group colspan="4" groups="base.group_extended">
+                                <separator col="4" colspan="4" string="Configure writeoff and exchange diff accounts"/>
+                                <field name="company_id" colspan="4" widget="selection"/>
+                            </group>
+                            <group colspan="4" string="Writeoff accounts">
+                                <field name="writeoff_gains" colspan="4"/>
+                                <field name="writeoff_losses" colspan="4"/>
+                            </group>
+                            <group colspan="4" string="Exchange accounts">
+                                <field name="exchange_gains" colspan="4"/>
+                                <field name="exchange_losses" colspan="4"/>
+                            </group>
+                        </group>
+                    </group>
+                </data>
+            </field>
+        </record>
+
+        <record id="action_account_voucher_configuration_installer" model="ir.actions.act_window">
+            <field name="name">Writeoff and exchange diff accounts configuration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.voucher.installer</field>
+            <field name="view_id" ref="view_account_voucher_configuration_installer"/>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="account_voucher_configuration_installer_todo" model="ir.actions.todo">
+            <field name="action_id" ref="action_account_voucher_configuration_installer"/>
+            <field name="sequence">3</field>
+            <field name="restart">onskip</field>
+        </record>
+
+    </data>
+</openerp>

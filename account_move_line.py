@@ -18,6 +18,18 @@
 #
 ##############################################################################
 
-import account_voucher_unreconcile
+from osv import osv, fields
+from tools.translate import _
+
+class account_move_line(osv.osv):
+
+    _name = 'account.move.line'
+    _inherit = 'account.move.line'
+
+    _columns = {
+        'voucher_id': fields.many2one('account.voucher', 'Invoice Payment', ),
+    }
+
+account_move_line()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

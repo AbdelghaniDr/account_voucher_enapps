@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
+#    Copyright (C) 2011 Enapps LTD (<http://www.enapps.co.uk>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,14 +21,18 @@
 from osv import osv
 from tools.translate import _
 
+
 class invoice(osv.osv):
     _inherit = 'account.invoice'
 
     def invoice_pay_customer(self, cr, uid, ids, context=None):
-        if not ids: return []
+        if not ids:
+            return []
         inv = self.browse(cr, uid, ids[0], context=context)
+
+        voucher_defaults = self.get_voucher_defaults(cr, uid, ids, inv, context=context)
         return {
-            'name':_("Pay Invoice"),
+            'name': _("Pay Invoice"),
             'view_mode': 'form',
             'view_id': False,
             'view_type': 'form',
@@ -38,16 +41,30 @@ class invoice(osv.osv):
             'nodestroy': True,
             'target': 'current',
             'domain': '[]',
-            'context': {
-                'default_partner_id': inv.partner_id.id,
-                'default_amount': inv.residual,
-                'default_name':inv.name,
-                'close_after_process': True,
-                'invoice_type':inv.type,
-                'invoice_id':inv.id,
-                'default_type': inv.type in ('out_invoice','out_refund') and 'receipt' or 'payment'
-                }
+            'context': voucher_defaults,
         }
+
+    def get_voucher_defaults(self, cr, uid, ids, invoice_obj, context={}):
+        """Return the dict of keys as 'default_' + field_name and vals
+        to be used as defaults in new Voucher"""
+        return {
+                'default_partner_id': invoice_obj.partner_id.id,
+                'default_amount': invoice_obj.residual,
+                'default_name': invoice_obj.name,
+                'close_after_process': True,
+                'invoice_type': invoice_obj.type,
+                'invoice_id': invoice_obj.id,
+                'default_type': (invoice_obj.type in ('out_invoice', 'out_refund') and 'receipt') or 'payment',
+                'default_company_id': invoice_obj.company_id.id,
+        }
+
+    def set_current_state(self, cr, uid, ids, context={}):
+        for invoice in self.browse(cr, uid, ids, context=context):
+            if invoice.reconciled:
+                invoice.write({'state': 'paid'})
+            else:
+                invoice.write({'state': 'open'})
+        return True
 
 invoice()
 
